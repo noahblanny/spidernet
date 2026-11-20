@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SpiderNet | Network Inventory</title>
+<style>
+:root{color-scheme:dark;--bg:#080e20;--card:#13223c;--line:#29456a;--red:#f04452;--blue:#8fb7eb;--text:#f1f6ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 90% 5%,#1c3058,var(--bg) 55%);color:var(--text);font:15px/1.5 system-ui,Arial,sans-serif}
+main{max-width:1100px;margin:auto;padding:40px 22px}header{border-left:6px solid var(--red);padding-left:22px;margin-bottom:30px}h1{font-size:clamp(32px,6vw,54px);margin:0}h1 span{color:var(--red)}p{color:var(--blue)}.eyebrow{letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:15px}.card,.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}.card strong{font-size:34px;display:block}.card small{color:var(--blue)}
+.panel{margin-top:24px;overflow:auto}h2{margin-top:0;font-size:21px}table{width:100%;border-collapse:collapse;text-align:left;min-width:610px}th,td{padding:12px;border-bottom:1px solid var(--line)}th{color:var(--blue);font-weight:600}.tag{border:1px solid var(--red);border-radius:20px;padding:3px 10px;color:#ff8992}.known{border-color:#6ba6ff;color:#9ac4ff}footer{color:var(--blue);margin-top:25px;font-size:13px}
+</style></head><body><main>
+<header><div class="eyebrow">Spider-Sense / Asset Visibility</div><h1>🕸️ Spider<span>Net</span></h1><p>Network Inventory Dashboard · Python + SQLite</p></header>
+<section class="cards"><div class="card"><small>Observed devices</small><strong>{{ devices|length }}</strong></div><div class="card"><small>Known devices</small><strong>{{ known }}</strong></div><div class="card"><small>Unclassified</small><strong>{{ devices|length - known }}</strong></div><div class="card"><small>Recorded scans</small><strong>{{ scans|length }}</strong><small>Most recent 15 shown</small></div></section>
+<section class="panel"><h2>Device Inventory</h2><table><thead><tr><th>IP address</th><th>Device</th><th>MAC (manual)</th><th>Classification</th><th>Last observed (UTC)</th></tr></thead><tbody>
+{% for d in devices %}<tr><td>{{ d.ip }}</td><td>{{ d.friendly_name or d.hostname or 'Unidentified' }}</td><td>{{ d.mac or 'Not collected' }}</td><td><span class="tag {{ 'known' if d.known else '' }}">{{ 'Known' if d.known else 'Unknown' }}</span></td><td>{{ d.last_seen[:19] }}</td></tr>{% else %}<tr><td colspan="5">No devices recorded yet. Run an authorized CLI scan.</td></tr>{% endfor %}
+</tbody></table></section>
+<section class="panel"><h2>Recent Scans</h2><table><thead><tr><th>Started (UTC)</th><th>Target</th><th>Addresses checked</th><th>Responsive</th></tr></thead><tbody>
+{% for s in scans %}<tr><td>{{ s.started_at[:19] }}</td><td>{{ s.target }}</td><td>{{ s.addresses_checked }}</td><td>{{ s.responsive_hosts }}</td></tr>{% else %}<tr><td colspan="4">No scan history.</td></tr>{% endfor %}
+</tbody></table></section><footer>Authorized lab use only · TCP probe response ≠ complete device discovery · Local dashboard only</footer>
+</main></body></html>
