@@ -4,7 +4,15 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-244c87) ![Flask](https://img.shields.io/badge/Dashboard-Flask-ef3340) ![SQLite](https://img.shields.io/badge/Database-SQLite-244c87)
 
+> **Original project evidence:** My September 2026 Spider-Net dashboard ran in Proxmox VM 101 with a Flask web application and a systemd scanner service. The original screenshots show online/known/unknown counts, IP/MAC inventory, first/last-seen timestamps, and a device-renaming interface. The source code in this repository is a **new portfolio implementation**, not the original deployed source; features differ. See [Original deployment and evidence](docs/original-deployment.md).
+
 > **Portfolio implementation:** This repository contains a clean, runnable implementation based on my SpiderNet project concept and prior lab work. It is not presented as the exact original codebase. Test and validate it in your own environment before relying on results.
+
+## Original deployment (September 2026)
+
+The original dashboard screenshots show **18 devices online, 16 known devices, and 26 unknown devices** at the moment captured. These are historical dashboard counters, not live metrics and not a claim that the current repository implementation reproduced them. The Proxmox console shows a `spidernet-scanner.service` systemd unit active at capture time and a separate `spidernet-web.service` unit configured. For a precise distinction between the original and rebuilt versions, read [deployment notes](docs/original-deployment.md).
+
+**Privacy:** Original captures contain home-network identifiers. Public-safe redacted copies are being prepared separately; unredacted screenshots should not be committed.
 
 ## Features
 
